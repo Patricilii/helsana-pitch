@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Enabled People Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --helsana-red: #AD0B49;
+            --helsana-white: #ffffff;
+            --neutral-dark: #1a1a1a;
+            --neutral-light: #f5f5f5;
+            --accent-light: #f9f0f5;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--helsana-white);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-in;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Slide 1: Title */
+        .slide-1 {
+            background: linear-gradient(135deg, var(--helsana-white) 0%, var(--accent-light) 100%);
+            justify-content: space-between;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        .slide-1 h1 {
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--neutral-dark);
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .slide-1 .red-accent {
+            color: var(--helsana-red);
+        }
+
+        .slide-1 p {
+            font-size: 28px;
+            color: #666;
+            font-weight: 300;
+            max-width: 800px;
+        }
+
+        .slide-decoration {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--helsana-red);
+            opacity: 0.1;
+            bottom: -100px;
+            right: -100px;
+        }
+
+        /* Slide 2: Problem */
+        .slide-2 {
+            background: var(--helsana-white);
+        }
+
+        .slide h2 {
+            font-size: 52px;
+            font-weight: 700;
+            color: var(--neutral-dark);
+            margin-bottom: 80px;
+            letter-spacing: -0.5px;
+        }
+
+        .slide h2 .accent {
+            color: var(--helsana-red);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .problem-box {
+            background: var(--accent-light);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: left;
+            border-left: 4px solid var(--helsana-red);
+        }
+
+        .problem-box h3 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            margin-bottom: 16px;
+        }
+
+        .problem-box p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Slide 3: Solution */
+        .slide-3 {
+            background: var(--helsana-white);
+        }
+
+        .solution-boxes {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+            max-width: 1200px;
+        }
+
+        .solution-visual {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, var(--helsana-red), #d4265a);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .solution-content {
+            text-align: left;
+            flex: 1;
+        }
+
+        .solution-point {
+            margin-bottom: 32px;
+        }
+
+        .solution-point h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            margin-bottom: 8px;
+        }
+
+        .solution-point p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Slide 4 & 5: Use Cases */
+        .slide-4, .slide-5 {
+            background: var(--helsana-white);
+            justify-content: flex-start;
+            padding-top: 80px;
+        }
+
+        .usecase-container {
+            text-align: left;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .usecase-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .usecase-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+
+        .timeline-step {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            background: var(--helsana-red);
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .timeline-step h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            margin-bottom: 12px;
+        }
+
+        .timeline-step p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Slide 6: Roadmap */
+        .slide-6 {
+            background: var(--helsana-white);
+        }
+
+        .roadmap {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 60px;
+            gap: 30px;
+        }
+
+        .phase {
+            flex: 1;
+            background: var(--accent-light);
+            padding: 32px;
+            border-radius: 12px;
+            text-align: left;
+            border-top: 4px solid var(--helsana-red);
+        }
+
+        .phase h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--neutral-dark);
+            margin-bottom: 16px;
+        }
+
+        .phase p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* Slide 7: KPIs */
+        .slide-7 {
+            background: var(--helsana-white);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 50px;
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, var(--accent-light), var(--helsana-white));
+            padding: 32px;
+            border-radius: 12px;
+            border-left: 4px solid var(--helsana-red);
+        }
+
+        .kpi-label {
+            font-size: 14px;
+            color: #999;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--helsana-red);
+            margin-bottom: 8px;
+        }
+
+        .kpi-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Slide 8: Team */
+        .slide-8 {
+            background: linear-gradient(135deg, var(--helsana-white) 0%, var(--accent-light) 100%);
+        }
+
+        .team-content {
+            max-width: 900px;
+            text-align: left;
+        }
+
+        .team-section {
+            margin-bottom: 50px;
+        }
+
+        .team-section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--helsana-red);
+        }
+
+        .team-points {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .team-point {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .team-point::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--helsana-red);
+            font-weight: bold;
+        }
+
+        /* Slide 9: Closing */
+        .slide-9 {
+            background: linear-gradient(135deg, var(--helsana-red) 0%, #8a0939 100%);
+            color: white;
+            justify-content: space-around;
+        }
+
+        .slide-9 h2 {
+            color: white;
+            font-size: 56px;
+            margin-bottom: 40px;
+        }
+
+        .slide-9 p {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .closing-action {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 24px 48px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            border: 2px solid white;
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 16px;
+            z-index: 100;
+        }
+
+        button {
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 50%;
+            background: var(--helsana-red);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #8a0939;
+            transform: scale(1.1);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            font-size: 14px;
+            color: #999;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .solution-boxes {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .roadmap {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Titel -->
+        <div class="slide slide-1 active">
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h1>Die Zukunft von<br><span class="red-accent">People Development</span></h1>
+                <p>Menschliche Exzellenz + AI-Intelligenz</p>
+            </div>
+            <div class="slide-decoration"></div>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide slide-2">
+            <h2>Die Herausforderung<br><span class="accent">Heute</span></h2>
+            <div class="problem-grid">
+                <div class="problem-box">
+                    <h3>Feedback bleibt Datenbrei</h3>
+                    <p>360-Feedback generiert massenhaft Daten – Patterns werden nicht erkannt, konkrete Entwicklungsschritte bleiben vage.</p>
+                </div>
+                <div class="problem-box">
+                    <h3>Coaching-Ressourcen reichen nicht</h3>
+                    <p>Führungskräfte brauchen kontinuierliches Coaching. Interne Kapazität ist begrenzt, externe Coaches sind teuer.</p>
+                </div>
+                <div class="problem-box">
+                    <h3>Change-Kommunikation verpufft</h3>
+                    <p>Eine-Größe-Passt-Alle-Kommunikation erreicht niemanden richtig. Widerstände werden nicht adressiert.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide slide-3">
+            <h2>Die Lösung<br><span class="accent">AI als Multiplikator</span></h2>
+            <div class="solution-boxes">
+                <div class="solution-visual">
+                    Mensch<br>+<br>AI
+                </div>
+                <div class="solution-content">
+                    <div class="solution-point">
+                        <h3>AI-gestützte Coaching-Tools</h3>
+                        <p>Coaching in die Breite skalieren, ohne Qualität zu verlieren. Kontinuierliche Unterstützung zwischen Sessions.</p>
+                    </div>
+                    <div class="solution-point">
+                        <h3>Intelligente Feedback-Analyse</h3>
+                        <p>Pattern Recognition in Echtzeit. Automatische Priorisierung von Entwicklungsthemen. Evidence-basierte Interventionen.</p>
+                    </div>
+                    <div class="solution-point">
+                        <h3>Adaptive Technologie</h3>
+                        <p>Tools die wir nutzen: Claude, Perplexity, Cowork – etabliert, skalierbar, vertraut.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Use Case 1 -->
+        <div class="slide slide-4">
+            <div class="usecase-container">
+                <h2>Use Case 1<br><span class="accent">AI-Coaching für externe Coaches</span></h2>
+                <div class="usecase-timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <h4>Vor der Session</h4>
+                        <p>AI analysiert Feedback-Daten. Coach erhält "Insight Card" mit Patterns und Fokus.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <h4>Während der Session</h4>
+                        <p>Scenario Playground: Schwierige Situationen simulieren. Real-Time Prompts für bessere Fragen.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <h4>Nach der Session</h4>
+                        <p>AI generiert konkrete "Before-After" Habits. Tracking zwischen Sessions. Asynchrone Mini-Inputs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Use Case 2 -->
+        <div class="slide slide-5">
+            <div class="usecase-container">
+                <h2>Use Case 2<br><span class="accent">Intelligente Feedback-Analyse</span></h2>
+                <div class="usecase-timeline">
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <h4>Daten sammeln</h4>
+                        <p>360-Feedback, Pulse Surveys, Entwicklungsgespräche generieren Daten.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <h4>Pattern erkennen</h4>
+                        <p>AI identifiziert Top 3 Patterns. Priorisiert nach Business Impact.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-dot"></div>
+                        <h4>Handeln</h4>
+                        <p>Konkrete Maßnahmen + Coaching-Plan. Follow-up ist messbar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Roadmap -->
+        <div class="slide slide-6">
+            <h2>Implementierungs-Roadmap<br><span class="accent">4 Phasen, 12 Monate</span></h2>
+            <div class="roadmap">
+                <div class="phase">
+                    <h3>Phase 1</h3>
+                    <p><strong>Quick Win</strong></p>
+                    <p>Monate 1-3</p>
+                    <p>Intelligente Feedback-Analyse Pilot</p>
+                </div>
+                <div class="phase">
+                    <h3>Phase 2</h3>
+                    <p><strong>Coach Enablement</strong></p>
+                    <p>Monate 4-6</p>
+                    <p>Coach-Dashboard & Integration</p>
+                </div>
+                <div class="phase">
+                    <h3>Phase 3</h3>
+                    <p><strong>Self-Service</strong></p>
+                    <p>Monate 7-12</p>
+                    <p>Coaching für alle, 24/7</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: KPIs -->
+        <div class="slide slide-7">
+            <h2>Erfolgsmessung<br><span class="accent">Was wir tracken</span></h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Prozess-Effizienz</div>
+                    <div class="kpi-value">80%</div>
+                    <div class="kpi-desc">Weniger Analyse-Zeit für HR</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Clarity</div>
+                    <div class="kpi-value">95%</div>
+                    <div class="kpi-desc">FKs mit klarem Entwicklungsplan</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Impact</div>
+                    <div class="kpi-value">+15%</div>
+                    <div class="kpi-desc">Leadership Effectiveness steigt</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Team -->
+        <div class="slide slide-8">
+            <div class="team-content">
+                <h2>Unser Profil<br><span class="accent">Warum wir das schaffen</span></h2>
+                
+                <div class="team-section">
+                    <h3>AI-Kompetenz</h3>
+                    <div class="team-points">
+                        <div class="team-point">AI Fluency & AI Teaching Zertifikate (Anthropic)</div>
+                        <div class="team-point">Praktische Erfahrung mit Claude, Perplexity, Cowork</div>
+                        <div class="team-point">Nicht theoretisch – wir nutzen AI aktiv</div>
+                    </div>
+                </div>
+
+                <div class="team-section">
+                    <h3>People Development Know-How</h3>
+                    <div class="team-points">
+                        <div class="team-point">Culture Change & Coaching Programmes geleitet</div>
+                        <div class="team-point">Versicherungs-DNA & internationale HR-Erfahrung</div>
+                        <div class="team-point">Gemeinsames Track Record in Kulturarbeit</div>
+                    </div>
+                </div>
+
+                <div class="team-section">
+                    <h3>Implementierungs-Mindset</h3>
+                    <div class="team-points">
+                        <div class="team-point">Agil: Pilot statt Big Bang</div>
+                        <div class="team-point">Evidence-basiert: Wir messen, iterieren, skalieren</div>
+                        <div class="team-point">Zusammen: 50/50 Job Sharing für volle Fokus</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Closing -->
+        <div class="slide slide-9">
+            <h2>In zwei Jahren</h2>
+            <p>Jede Führungskraft hat Zugang zu kontinuierlichem Coaching. Jedes Feedback wird in Entwicklung übersetzt. Unser Team konzentriert sich auf echte Kulturarbeit.</p>
+            <p><strong>Das ist nicht Zukunftsmusik – das ist heute möglich.</strong></p>
+            <div class="closing-action">Lass uns starten → Phase 1 Pilot</div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">9</span>
+    </div>
+    <div class="controls">
+        <button onclick="prevSlide()">←</button>
+        <button onclick="nextSlide()">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
